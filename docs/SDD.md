@@ -1,8 +1,8 @@
 # Software Design Document (SDD)
 
-## 1. System Architecture
+##  System Architecture
 
-### 1.1 High-Level Architecture
+###  High-Level Architecture
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Mobile    │     │   Backend   │     │  Firebase   │
@@ -17,410 +17,210 @@
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
-### 1.2 Component Diagram
-- **Frontend Layer**
-  - React Native Components (v0.72.0)
-  - Navigation System (React Navigation 6)
-  - State Management (Redux Toolkit)
-  - UI Components (React Native Paper)
 
-- **Backend Layer**
-  - Express.js Server (v4.18.2)
-  - API Routes (RESTful)
-  - Middleware (Authentication, Validation)
-  - Services (Business Logic)
 
-- **Database Layer**
-  - Firestore Collections
-  - Real-time Listeners
-  - Data Models
-  - Indexes
+## 1. Introduction
 
-## 2. Detailed Design
+MU Connect is a role-based mobile application developed for Mahindra University to enhance communication between students, faculty, and parents. The app supports features like real-time announcements, task submissions, attendance tracking, profile management, and GPS-based student location tracking (partially implemented).
 
-### 2.1 Frontend Design
-#### 2.1.1 Component Structure
-```
-src/
-├── components/
-│   ├── auth/
-│   │   ├── Login.tsx
-│   │   ├── Register.tsx
-│   │   └── ForgotPassword.tsx
-│   ├── location/
-│   │   ├── LocationTracker.tsx
-│   │   ├── GeofenceMap.tsx
-│   │   └── EmergencyButton.tsx
-│   ├── announcements/
-│   │   ├── AnnouncementList.tsx
-│   │   ├── AnnouncementDetail.tsx
-│   │   └── CreateAnnouncement.tsx
-│   └── common/
-│       ├── Header.tsx
-│       ├── Footer.tsx
-│       └── LoadingSpinner.tsx
-├── screens/
-│   ├── HomeScreen.tsx
-│   ├── ProfileScreen.tsx
-│   └── SettingsScreen.tsx
-├── navigation/
-│   ├── AppNavigator.tsx
-│   └── AuthNavigator.tsx
-├── services/
-│   ├── api.ts
-│   ├── auth.ts
-│   └── location.ts
-└── utils/
-    ├── constants.ts
-    ├── helpers.ts
-    └── types.ts
-```
+### 1.1 Purpose
 
-#### 2.1.2 State Management
-```typescript
-// Redux Store Configuration
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slices/authSlice';
-import locationReducer from './slices/locationSlice';
+This document outlines the software design of MU Connect, acting as a technical reference for developers, testers, and academic stakeholders.
 
-export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    location: locationReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-});
+### 1.2 Scope
 
-// Example Slice
-import { createSlice } from '@reduxjs/toolkit';
+MU Connect provides three interfaces:
+	•	Students: Task submission, announcements, attendance view
+	•	Faculty: Post announcements, manage attendance, review tasks
+	•	Parents: View student information, announcements, and GPS-based tracking (partially complete)
 
-const locationSlice = createSlice({
-  name: 'location',
-  initialState: {
-    currentLocation: null,
-    geofences: [],
-    isTracking: false,
-  },
-  reducers: {
-    setLocation: (state, action) => {
-      state.currentLocation = action.payload;
-    },
-    // ... other reducers
-  },
-});
-```
+### 1.3 Acronyms
+	•	MU – Mahindra University
+	•	GPS – Global Positioning System
+	•	JWT – JSON Web Token
+	•	API – Application Programming Interface
 
-### 2.2 Backend Design
-#### 2.2.1 API Structure
-```
-/api
-├── auth/
-│   ├── login
-│   ├── register
-│   └── refresh-token
-├── users/
-│   ├── profile
-│   ├── settings
-│   └── permissions
-├── location/
-│   ├── track
-│   ├── geofence
-│   └── history
-├── announcements/
-│   ├── create
-│   ├── list
-│   └── read-receipts
-└── university/
-    ├── courses
-    ├── events
-    └── departments
-```
+### 1.4 References
+	•	Firebase Documentation
+	•	React Native + Vite Docs
+	•	Google Maps API
+	•	IEEE 830 SRS Specification
 
-#### 2.2.2 Service Layer
-```typescript
-// User Service Example
-class UserService {
-  async createUser(userData: UserInput): Promise<User> {
-    try {
-      const userRef = await admin.auth().createUser({
-        email: userData.email,
-        password: userData.password,
-      });
+⸻
 
-      await db.collection('users').doc(userRef.uid).set({
-        ...userData,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
+## 2. Use Case View
 
-      return this.getUser(userRef.uid);
-    } catch (error) {
-      throw new Error(`Failed to create user: ${error.message}`);
-    }
-  }
+| Use Case ID | Description                    | Actor            |
+|-------------|--------------------------------|------------------|
+| UC1         | Role-based login               | All Users        |
+| UC2         | View announcements             | Student, Parent  |
+| UC3         | Post announcements             | Faculty          |
+| UC4         | Upload assignment              | Student          |
+| UC5         | Manage attendance              | Faculty          |
+| UC6         | View child’s info and location | Parent           |
 
-  // ... other methods
-}
 
-// Location Service Example
-class LocationService {
-  async trackLocation(userId: string, location: LocationData): Promise<void> {
-    const batch = db.batch();
-    
-    // Update current location
-    batch.set(
-      db.collection('locations').doc(userId),
-      {
-        ...location,
-        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-      }
-    );
 
-    // Add to history
-    batch.set(
-      db.collection('locationHistory').doc(),
-      {
-        userId,
-        ...location,
-        timestamp: admin.firestore.FieldValue.serverTimestamp(),
-      }
-    );
+⸻
 
-    await batch.commit();
-  }
-}
-```
+## 3. Design Overview
 
-### 2.3 Database Design
-#### 2.3.1 Collections
-```typescript
-// Firestore Collections Structure
-interface Collections {
-  users: {
-    [userId: string]: {
-      email: string;
-      role: 'student' | 'parent' | 'faculty' | 'admin';
-      profile: {
-        name: string;
-        department?: string;
-        studentId?: string;
-        parentOf?: string[];
-      };
-      settings: {
-        notifications: boolean;
-        locationSharing: boolean;
-      };
-      createdAt: Timestamp;
-      updatedAt: Timestamp;
-    };
-  };
-  
-  locations: {
-    [userId: string]: {
-      coordinates: {
-        latitude: number;
-        longitude: number;
-      };
-      accuracy: number;
-      timestamp: Timestamp;
-    };
-  };
-  
-  announcements: {
-    [announcementId: string]: {
-      title: string;
-      content: string;
-      author: string;
-      category: string;
-      priority: 'low' | 'medium' | 'high';
-      targetAudience: string[];
-      attachments: string[];
-      createdAt: Timestamp;
-      expiresAt?: Timestamp;
-    };
-  };
-}
-```
+### 3.1 Design Goals
+	•	Easy and secure access to academic data
+	•	Role-specific dashboards
+	•	Real-time data using Firebase
+	•	Modular backend and frontend separation
 
-#### 2.3.2 Data Models
-```typescript
-// TypeScript Interfaces
+### 3.2 Assumptions
+	•	App runs on internet-enabled smartphones
+	•	Firebase Auth handles authentication
+	•	Users belong to Mahindra University
+
+### 3.3 Key Design Modules
+	•	Authentication Module – Login, role-based redirection
+	•	Announcements Module – Post, view, and filter updates
+	•	Student Module – Upload tasks, view attendance
+	•	Faculty Module – Assignments, announcements, attendance
+	•	Parent Module – View student info, receive notifications
+	•	Location Module – Partial GPS tracking using Maps API
+
+⸻
+
+## 4. Logical View
+
+### 4.1 Frontend Structure (React Native + Vite)
+
+/src
+  /components/
+    /student
+    /faculty
+    /parent
+  /screens/
+    Login, Dashboard, Profile, Submissions
+  /services/
+    firebase.ts, api.ts
+  /navigation/
+    AppRoutes.tsx
+  /store/
+    authSlice.ts, locationSlice.ts
+
+### 4.2 Backend Structure (Node.js + Express)
+
+/backend
+  /routes/
+    auth.js, announcements.js, students.js
+  /services/
+    authService.js, announcementService.js
+  /middleware/
+    checkAuth.js
+
+
+
+⸻
+
+## 5. Data View
+
+### 5.1 Firestore Collections
+
+
+| Collection    | Description                              |
+|---------------|------------------------------------------|
+| users         | Profile info and roles                   |
+| announcements | University-wide or filtered messages     |
+| tasks         | Assignment uploads                       |
+| attendance    | Daily presence data                      |
+| location      | GPS updates from student device          |
+
+### 5.2 Sample Data Schema
+
 interface User {
   id: string;
   email: string;
-  role: 'student' | 'parent' | 'faculty' | 'admin';
+  role: 'student' | 'faculty' | 'parent';
   profile: {
     name: string;
     department?: string;
     studentId?: string;
-    parentOf?: string[];
   };
-  settings: {
-    notifications: boolean;
-    locationSharing: boolean;
-  };
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface Location {
-  userId: string;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
-  accuracy: number;
-  timestamp: Date;
-  geofenceId?: string;
 }
 
 interface Announcement {
   id: string;
   title: string;
-  content: string;
+  message: string;
   author: string;
-  category: 'academic' | 'event' | 'emergency' | 'general';
-  priority: 'low' | 'medium' | 'high';
   targetAudience: string[];
-  attachments: string[];
-  readReceipts: {
-    [userId: string]: {
-      readAt: Date;
-      deviceInfo: string;
-    };
-  };
-  createdAt: Date;
-  expiresAt?: Date;
+  timestamp: Date;
 }
-```
 
-## 3. Security Design
+interface Location {
+  userId: string;
+  lat: number;
+  lon: number;
+  timestamp: Date;
+}
 
-### 3.1 Authentication
-```typescript
-// JWT Middleware
-const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      throw new Error('No token provided');
-    }
 
-    const decoded = await admin.auth().verifyIdToken(token);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
 
-// Role-based Access Control
-const checkRole = (roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ error: 'Insufficient permissions' });
-    }
-    next();
-  };
-};
-```
+⸻
 
-### 3.2 Data Protection
-- End-to-end encryption using AES-256
-- Input validation using Joi
-- XSS prevention using helmet
-- Rate limiting using express-rate-limit
+## 6. Exception Handling
+	•	🔒 Login Failure → “Invalid credentials”
+	•	📡 Location Fetch Error → “Location unavailable”
+	•	🚫 File Upload Error → “Unsupported format or file too large”
+	•	🌐 No Internet → “Connection error. Please retry”
 
-## 4. Performance Design
+⸻
 
-### 4.1 Optimization Strategies
-```typescript
-// Caching Example
-const cacheMiddleware = (duration: number) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const key = `cache:${req.originalUrl}`;
-    const cachedResponse = await redis.get(key);
-    
-    if (cachedResponse) {
-      return res.json(JSON.parse(cachedResponse));
-    }
-    
-    res.sendResponse = res.json;
-    res.json = (body: any) => {
-      redis.setex(key, duration, JSON.stringify(body));
-      return res.sendResponse(body);
-    };
-    
-    next();
-  };
-};
+## 7. Configurable Parameters
 
-// Pagination Example
-const paginateResults = (page: number, limit: number) => {
-  const skip = (page - 1) * limit;
-  return {
-    skip,
-    limit,
-  };
-};
-```
+| Parameter                | Description                      | File               |
+|--------------------------|----------------------------------|--------------------|
+| FIREBASE_API_KEY         | Firebase service key             | .env (frontend)    |
+| GOOGLE_MAPS_API_KEY      | Location services                | .env (frontend)    |
+| JWT Expiry               | Session timeout for auth         | Backend config     |
+| Location Polling Interval| Frequency of location updates    | Location service   |
 
-### 4.2 Scalability
-- Horizontal scaling with load balancers
-- Database indexing for common queries
-- Query optimization with compound indexes
-- Caching frequently accessed data
 
-## 5. Testing Strategy
 
-### 5.1 Unit Testing
-```typescript
-// Jest Test Example
-describe('UserService', () => {
-  it('should create a new user', async () => {
-    const userData = {
-      email: 'test@example.com',
-      password: 'password123',
-      role: 'student',
-    };
-    
-    const user = await userService.createUser(userData);
-    expect(user.email).toBe(userData.email);
-    expect(user.role).toBe(userData.role);
-  });
-});
-```
+⸻
 
-### 5.2 Integration Testing
-- API endpoint testing
-- Database operations testing
-- Authentication flow testing
-- Real-time updates testing
+## 8. Quality of Service
 
-### 5.3 End-to-End Testing
-- User flow testing
-- Cross-platform testing
-- Performance testing
-- Security testing
+### 8.1 Availability
+	•	99.9% uptime with Firebase infrastructure
+	•	Node.js backend deployed locally (Render-ready)
 
-## 6. Deployment Strategy
+### 8.2 Security
+	•	Role-based access control
+	•	AES-256 encryption for data at rest
+	•	Firebase Auth with token-based validation
 
-### 6.1 Frontend Deployment
-- Expo build system
-- App store submission
-- Play store submission
-- CI/CD pipeline
+### 8.3 Performance
+	•	App load time: < 2 seconds
+	•	Notifications: < 1 second
+	•	Data sync: Firestore real-time listener
 
-### 6.2 Backend Deployment
-- Node.js hosting
-- Environment configuration
-- SSL/TLS setup
-- Monitoring and logging
+### 8.4 Maintainability
+	•	Modular architecture
+	•	Redux Toolkit for predictable state
+	•	Documented API and components
 
-### 6.3 Database Deployment
-- Firebase project setup
-- Security rules
-- Backup configuration
-- Monitoring and alerts 
+⸻
+
+## 9. Contributors
+
+| Name                | Role                          |
+|---------------------|-------------------------------|
+| Kasoju Aravind      | Project Lead, Backend & Auth  |
+| P.K.L. Ganesh       | Frontend & Student UI         |
+| A. Sai Rohan        | Backend APIs                  |
+| Tanush              | UI/UX Design                  |
+| Sai Snigdha         | QA Tester                     |
+| Pavan Tejas Marri   | Attendance Logic, Backend     |
+| Koushik             | GitHub Deployment Setup       |
+| Rithvik             | QA (Parent Module)            |
+
+
+
+⸻

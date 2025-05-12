@@ -1,123 +1,146 @@
-#  Mahindra University Mobile Application
+Great — thanks for the update! I’ll mark the APK build as partially completed in the README so that it honestly reflects your progress.
 
-This is a cross-platform mobile application built for Mahindra University to enhance communication between students, parents, and faculty. The app provides university-related information, real-time geo-location tracking, and announcement features — all within a secure and user-friendly interface.
+Here is your final, submission-ready README.md — updated with all corrections:
 
-## Project Documentation
-- [Problem Statement](./docs/ProblemStatement.md)
-- [Software Requirements Specification (SRS)](./docs/SRS.md)
-- [Software Design Document (SDD)](./docs/SDD.md)
+⸻
 
-## Project Objectives
-1. Create a secure communication platform for students, parents, and faculty
-2. Implement real-time location tracking for student safety
-3. Develop an efficient announcement and notification system
-4. Provide a user-friendly interface for all stakeholders
-5. Ensure data security and privacy compliance
 
-## Team Members & Responsibilities
-- [Team Member 1]: Frontend Development & UI/UX
-- [Team Member 2]: Backend Development & Firebase Integration
-- [Team Member 3]: Authentication & Security
-- [Team Member 4]: Location Tracking & Maps Integration
-- [Team Member 5]: Testing & Documentation
 
-## Features
+#  MU Connect – Mahindra University Mobile App
 
--  **User Authentication**  
-  Secure login using Firebase Authentication with role-based access for:
-  - Students
-  - Parents
+**MU Connect** is a full-stack role-based mobile application developed to enhance communication between students, faculty, and parents at Mahindra University. It features real-time announcements, task submissions, profile management, schedules, and a live location feature for parents (partially implemented).
+
+---
+
+##  Project Documents
+
+- 📄 [SRS – Software Requirements Specification](./docs/GROUP%2038%20SRS.docx)
+- 📄 [SOW – Statement of Work](./docs/GROUP%20NO.38%20%5BSOW%5D.docx)
+- 📄 [SDD – Software Design Document](./docs/SDD.md)
+- 📄 [Problem Statement](./docs/ProblemStatement.md)
+
+---
+
+##  Key Features
+
+###  Student
+- View profile, attendance, tasks, announcements
+- Upload assignments and view timetable
+- Role-based dashboard
+
+###  Faculty
+- Post announcements
+- View student profiles and submissions
+- Manage attendance
+
+###  Parent
+- Access student profile, announcements
+- View faculty contacts
+-  **Live location tracking (partially implemented)**
+
+---
+
+##  Authentication
+
+- Firebase Authentication with role-based access:
+  - Student
   - Faculty
+  - Parent
 
--  **University Information Module**  
-  Displays essential university details like departments, events, and courses.
+---
 
--  **Parent Tracking System**  
-  Allows parents to view their child's live location on campus using Google Maps API.
+##  How to Run the Project (Local Setup)
 
--  **Faculty Broadcast System**  
-  Faculty members can send announcements and notifications to students.
+###  Prerequisites
 
--  **Push Notifications**  
-  Get real-time alerts about important updates and events.
+- Node.js (v16+)
+- Firebase project setup (Auth + Firestore)
+- Git
 
--  **Smooth UI/UX**  
-  Clean, responsive, and intuitive user interface built with React Native.
+---
 
-## Tech Stack
+###  Backend Setup
 
-| Layer       | Technology                  |
-|-------------|------------------------------|
-| Frontend    | React Native (Expo)          |
-| Backend     | Node.js + Express.js         |
-| Database    | Firebase Firestore           |
-| Auth        | Firebase Authentication      |
-| Maps        | Google Maps API              |
-
-## Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/mahindra-university-app.git
-cd mahindra-university-app
-```
-
-### 2. Firebase Setup
-- Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
-- Enable Firestore and Authentication (Email/Password or other providers as needed).
-- Download the Firebase Admin SDK service account key and place it as `backend/service-account.json` (do **not** commit this file to version control).
-- Update Firestore rules and indexes as needed (see `firestore.rules` and `firestore.indexes.json`).
-
-### 3. Install Dependencies
-#### Frontend
-```bash
-npm install
-```
-#### Backend
 ```bash
 cd backend
 npm install
-```
-
-### 4. Run the App
-#### Frontend (React Native)
-```bash
 npm run dev
-```
-#### Backend (Express.js)
-```bash
-cd backend
+
+Backend server runs on http://localhost:5000
+ .env and Firebase Admin SDK are already included.
+
+⸻
+
+📱 Frontend Setup
+
+cd frontend
+npm install
 npm run dev
-```
 
-## System Architecture
-The application follows a client-server architecture with the following components:
-1. **Frontend**: React Native mobile app
-2. **Backend**: Express.js server
-3. **Database**: Firebase Firestore
-4. **Authentication**: Firebase Auth
-5. **Real-time Updates**: Firebase Realtime Database
-6. **Maps Integration**: Google Maps API
+Frontend runs on http://localhost:5173
+ Firebase config is already present in firebase.ts.
 
-## Security Measures
-- JWT-based authentication
-- Role-based access control
-- Secure API endpoints
-- Encrypted data transmission
-- Protected service account credentials
+⸻
 
-## Notes
-- The project uses **Firebase Firestore** for all backend data storage
-- Do **not** share your `service-account.json` file publicly. Add it to `.gitignore`
-- For Firestore data structure and example documents, see the backend code and Firestore Console
-- For any issues, check the backend/README.md for more details on API endpoints and environment variables
+##  Tech Stack
 
-## Evaluation Information
-This project was developed as part of the Software Engineering course at Mahindra University. The implementation follows best practices in software development, including:
-- Agile development methodology
-- Continuous integration and testing
-- Documentation-driven development
-- Security-first approach
-- Scalable architecture design
+| Layer          | Technology                |
+|----------------|---------------------------|
+| Frontend       | React + Vite + Tailwind   |
+| Backend        | Node.js + Express.js      |
+| Authentication | Firebase Auth             |
+| Database       | Firebase Firestore        |
+| Maps           | Google Maps API           |
+| Styling        | Tailwind CSS              |
 
-   
+
+
+⸻
+
+ Known Limitations
+	•	Parent-student location sync is partially working
+	•	APK generation is in progress via EAS build / Expo config
+	•	No cloud hosting or Play Store deployment yet
+
+⸻
+
+##  Team Members & Contributions
+
+| Name                | Roll No       | Contributions                                    |
+|---------------------|---------------|--------------------------------------------------|
+| Kasoju Aravind      | SE22UCSE131   | Firebase Auth, fullstack integration, APK generation |
+| P.K.L. Ganesh       | SE22UCSE197   | Student UI, navigation, layout screens           |
+| A. Sai Rohan        | SE22UCSE098   | Auth APIs, announcement logic, backend integration |
+| Tanush              | SE22UCSE213   | UI/UX designs and Figma wireframes              |
+| Sai Snigdha         | SE22UCSE144   | QA testing: login, dashboard, announcements     |
+| Pavan Tejas Marri   | SE22UCSE172   | Backend: attendance and Firestore operations    |
+| Koushik             | SE22UCSE228   | Deployment setup, GitHub config                 |
+| Rithvik             | SE22UCSE199   | QA: Parent module testing and bug reports       |
+
+
+
+⸻
+
+##  Project Status
+
+| Feature                        | Status        |
+|--------------------------------|---------------|
+| Student & Faculty Modules      |  Complete    |
+| Parent Module UI               |  Complete    |
+| Parent-Student Location Tracking |  Partial     |
+| GitHub Push                    |  Done        |
+| APK Build                      |  In Progress |
+
+
+
+⸻
+
+ Contact
+
+Kasoju Aravind
+ se22ucse131@mahindrauniversity.edu.in
+
+⸻
+
+
+
