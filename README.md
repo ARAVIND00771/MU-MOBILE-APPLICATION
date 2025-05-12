@@ -14,7 +14,7 @@ Here is your final, submission-ready README.md — updated with all corrections:
 
 ##  Project Documents
 
-- 📄 [SRS – Software Requirements Specification](./docs/GROUP%2038%20SRS.docx)
+- 📄 [SRS – Software Requirements Specification](./docs/SRS.md)
 - 📄 [SOW – Statement of Work](./docs/GROUP%20NO.38%20%5BSOW%5D.docx)
 - 📄 [SDD – Software Design Document](./docs/SDD.md)
 - 📄 [Problem Statement](./docs/ProblemStatement.md)
