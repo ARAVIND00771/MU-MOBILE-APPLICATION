@@ -118,12 +118,12 @@ Frontend runs on http://localhost:5173
 |---------------------|---------------|--------------------------------------------------|
 | Kasoju Aravind      | SE22UCSE131   | Firebase Auth, fullstack integration, APK generation |
 | P.K.L. Ganesh       | SE22UCSE197   | Student UI, navigation, layout screens           |
-| A. Sai Rohan        | SE22UCSE098   | Auth APIs, announcement logic, backend integration |
-| Tanush              | SE22UCSE213   | UI/UX designs and Figma wireframes              |
-| Sai Snigdha         | SE22UCSE144   | QA testing: login, dashboard, announcements     |
-| Pavan Tejas Marri   | SE22UCSE172   | Backend: attendance and Firestore operations    |
-| Koushik             | SE22UCSE228   | Deployment setup, GitHub config                 |
-| Rithvik             | SE22UCSE199   | QA: Parent module testing and bug reports       |
+| A. Sai Rohan        | SE22UCSE039   | Auth APIs, announcement logic, backend integration |
+| Tanush              | SE22UCSE242   | UI/UX designs and Figma wireframes              |
+| Sai Snigdha         | SE22UCSE233   | QA testing: login, dashboard, announcements     |
+| Pavan Tejas Marri   | SE22UCSE202   | Backend: attendance and Firestore operations    |
+| Koushik             | SE22UCSE057   | Deployment setup, GitHub config                 |
+| Rithvik             | SE22UCSE210   | QA: Parent module testing and bug reports       |
 
 
 
