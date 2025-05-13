@@ -21,6 +21,14 @@ Here is your final, submission-ready README.md — updated with all corrections:
 
 ---
 
+## 📽️ PRESENTATION Videos
+
+- 🎬 [Live Demo: Login, Announcements & Role Flow](https://drive.google.com/file/d/1u3oKFBvRuLfRlGToBUop8RFphTV1lXD3/view?usp=drive_link)
+- 🎬 [Presentation Video (Team Walkthrough)](https://drive.google.com/file/d/1sA0uGTFxMFDMqIlpE33HvsffiwlmAzgY/view?usp=drive_link)
+
+
+---
+
 ##  Key Features
 
 ###  Student

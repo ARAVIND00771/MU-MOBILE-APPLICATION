@@ -102,10 +102,7 @@ The application will provide real-time tracking, announcements, and university i
 
 ### 3.4 Usability
 - Intuitive interface following Material Design 3
-- Cross-platform compatibility:
-  - Android 8.0+
-  - iOS 12+
-  - Web interface for admin
+  - Android 8.0
 - Offline functionality:
   - Cached announcements
   - Offline forms
