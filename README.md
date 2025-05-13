@@ -73,18 +73,18 @@ Here is your final, submission-ready README.md — updated with all corrections:
 cd backend
 npm install
 npm run dev
-
+```
 Backend server runs on http://localhost:5000
  .env and Firebase Admin SDK are already included.
 
 ⸻
 
 📱 Frontend Setup
-
+```bash
 cd frontend
 npm install
 npm run dev
-
+```
 Frontend runs on http://localhost:5173
  Firebase config is already present in firebase.ts.
 
