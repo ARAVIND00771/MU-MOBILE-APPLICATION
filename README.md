@@ -1,11 +1,3 @@
-Great — thanks for the update! I’ll mark the APK build as partially completed in the README so that it honestly reflects your progress.
-
-Here is your final, submission-ready README.md — updated with all corrections:
-
-⸻
-
-
-
 #  MU Connect – Mahindra University Mobile App
 
 **MU Connect** is a full-stack role-based mobile application developed to enhance communication between students, faculty, and parents at Mahindra University. It features real-time announcements, task submissions, profile management, schedules, and a live location feature for parents (partially implemented).
