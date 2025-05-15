@@ -28,6 +28,8 @@ Here is your final, submission-ready README.md — updated with all corrections:
 - 🎬 [Presentation Video (Team Walkthrough)](https://drive.google.com/file/d/1sA0uGTFxMFDMqIlpE33HvsffiwlmAzgY/view?usp=drive_link)
 
 
+
+
 ---
 
 ##  Key Features
@@ -146,7 +148,7 @@ Frontend runs on http://localhost:5173
 
  Contact
 
-Kasoju Aravind
+[Kasoju Aravind]
  se22ucse131@mahindrauniversity.edu.in
 
 ⸻
