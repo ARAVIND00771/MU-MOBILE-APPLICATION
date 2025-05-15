@@ -14,10 +14,11 @@ Here is your final, submission-ready README.md — updated with all corrections:
 
 ##  Project Documents
 
-- 📄 [SRS – Software Requirements Specification](./docs/SRS.md)
+- 📄 [SRS – Software Requirements Specification](https://docs.google.com/document/d/18DuhvqNNWvRfRhBwQx0jkgL0_uuUxOeB/edit?usp=drive_link&ouid=115977005481615635484&rtpof=true&sd=true)
 - 📄 [SOW – Statement of Work](./docs/GROUP%20NO.38%20%5BSOW%5D.docx)
 - 📄 [SDD – Software Design Document](./docs/SDD.md)
 - 📄 [Problem Statement](./docs/ProblemStatement.md)
+- 📄 [Test Plan](https://docs.google.com/spreadsheets/d/1O4fqjZH6H5Yccls6WTXFlvsxjtVhPDLeF5mRA6kG_Cw/edit?usp=sharing)
 
 ---
 
