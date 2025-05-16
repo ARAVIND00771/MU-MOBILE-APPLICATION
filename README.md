@@ -21,6 +21,42 @@
 
 
 
+The tool I’d normally use to edit the README directly is currently unavailable. But here’s exactly what you can copy and paste into your README.md to clearly list backend, frontend, and database files:
+
+⸻
+
+## 🗂️ Project Folder Structure
+
+### 📁 Backend Files
+```bash
+These handle API logic, authentication, and server configuration:
+	•	/backend/
+	•	src/server.ts – Main Express server entry point
+	•	src/routes/ – REST API routes (auth, users, announcements)
+	•	src/services/ – Firebase service integration
+	•	package.json – Backend dependencies and scripts
+```
+
+
+### 📁 Frontend Files
+```bash
+React Native code for the mobile app:
+	•	/src/ (or /frontend/ if separated)
+	•	pages/ – Screens (StudentHome, FacultyHome, ParentHome, etc.)
+	•	components/ – UI components (buttons, layout)
+	•	firebase.ts – Firebase frontend config
+	•	main.tsx, App.tsx – Entry point and routing
+	•	tailwind.config.ts – Tailwind styling config
+```
+
+
+### 📁 Database & Config Files
+```bash
+Firestore configuration and environment settings:
+	•	firestore.rules – Firestore security rules
+	•	firestore.indexes.json – Indexing setup for queries
+	•	.env – Firebase credentials and environment variables (for backend)
+```
 
 ---
 
